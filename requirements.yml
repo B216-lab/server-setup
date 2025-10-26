@@ -1,2 +1,7 @@
+roles:
+  # https://galaxy.ansible.com/ui/standalone/roles/geerlingguy/docker/documentation/
+  - src: geerlingguy.docker
+  - src: geerlingguy.pip
+
 collections:
   - name: community.general

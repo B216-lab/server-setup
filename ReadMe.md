@@ -18,3 +18,4 @@ flowchart LR
 # Ссылки
 - [Lissy93's ansibles](https://github.com/Lissy93/ansibles)
 - [Ansible docs](https://docs.ansible.com/ansible/latest/getting_started/introduction.html)
+- [Ansible how to](https://dev.to/lovestaco/getting-started-with-ansible-automate-setups-like-a-pro-5beh)
