@@ -1,0 +1,36 @@
+# https://ansible.readthedocs.io/projects/lint/profiles/
+profile: production # null, min, basic, moderate, safety, shared, production
+
+# Produce clean output for parsing; default is false
+parseable: true
+
+# Remove summary of results and produce simpler output; default is false
+quiet: true
+
+# Display verbose messages; 0 (normal); 1 (verbose)
+verbosity: 0
+
+# Ansible Lint does not automatically load rules that have the 'opt-in' tag.
+# You must enable opt-in rules by listing each rule 'id' below.
+# You can discover these rules by running `ansible-lint -L | grep opt-in -B 1`
+enable_list:
+  - args
+  - empty-string-compare # opt-in
+  - no-log-password # opt-in
+  - no-same-owner # opt-in
+  - galaxy-version-incorrect # opt-in
+  - yaml # force opt-in
+
+# Skip rules that are not applicable to your project
+skip_list:
+  - yaml[colons]
+  - yaml[comma]
+  - name[casing]
+  - yaml[comments]
+  - name[template]
+  - yaml[new-line-at-end-of-file]
+
+# Warnings are useful as they show up in Pull Requests but can be ignored
+warn_list:
+  - name[missing]
+  - var-naming[no-role-prefix]

@@ -1,0 +1,9 @@
+- name: 'Services'
+  hosts: all
+  become: true
+  tags: services
+  tasks:
+    - include_role:
+        name: docker
+      when: docker_enabled | default(true)
+      ignore_errors: true

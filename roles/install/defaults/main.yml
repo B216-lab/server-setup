@@ -1,0 +1,37 @@
+core:
+  - build-essential
+  - curl
+  - file
+  - git
+  - less
+  - man-db
+  - unzip
+  - zip
+
+shell:
+  - fd-find
+  - fzf
+  - jq
+  - neovim
+  - ripgrep
+  - tmux
+  - zoxide
+  - zsh
+
+networking:
+  - dnsutils
+  - net-tools
+  - nmap
+  - traceroute
+  - whois
+
+monitoring:
+  - btop
+  - duff
+  - gping
+  - iftop 
+  - iotop
+  - iperf3
+  - mtr
+  - ncdu
+  - atop

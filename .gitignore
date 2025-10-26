@@ -1,0 +1,53 @@
+# Python
+*.pyc
+.python-version
+.DS_Store
+.ruff_cache
+__pycache__/
+*.pyo
+.venv/
+venv/
+ENV/
+env
+
+# VS Code files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# IDE files
+.idea/
+
+# Sensitive or dynamic inventory files
+inventories/*
+inventory/*.ini
+inventory/*.yml
+inventory/*.yaml
+inventory/*.json
+!inventory/sample_inventory.ym
+
+# System-specific files
+.DS_Store
+Thumbs.db
+
+# SSH key files
+*.pem
+*.key
+*.pub
+.ssh/
+
+# Ansible-specific
+*.retry
+*.bak
+*.orig
+*.swp
+*.tmp
+.ansible
+
+# Logs
+logs/*
+*.log
+*.log.*
+
+# Molecule testing directories
+.molecule/
