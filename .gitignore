@@ -45,9 +45,8 @@ Thumbs.db
 .ansible
 
 # Logs
-logs/*
-*.log
-*.log.*
+logs/*.log
+logs/*.log.*
 
 # Molecule testing directories
 .molecule/
