@@ -1,0 +1,5 @@
+---
+b216_backend_project_name: "umrs-back"
+b216_backend_project_repo: "https://github.com/B216-lab/umrs-back.git"
+b216_backend_project_version: "main"
+b216_backend_project_directory: "/opt/umrs-back"

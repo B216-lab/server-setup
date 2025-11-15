@@ -3,6 +3,7 @@
         "redhat.ansible",
         "tamasfe.even-better-toml",
         "ms-vscode.makefile-tools",
-        "redhat.vscode-yaml"
+        "redhat.vscode-yaml",
+        "editorconfig.editorconfig"
     ]
 }

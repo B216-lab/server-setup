@@ -1,0 +1,12 @@
+---
+users_new_user: "deployer"
+users_user_password: "SUPER_SECRET_PASSWORD"
+users_user_ssh_key_path: "~/.ssh/id_rsa.pub"
+users_environment_variables:
+  - { key: "PATH", value: "/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games" }
+  - { key: "EDITOR", value: "nvim" }
+  - { key: "SHELL", value: "/bin/zsh" }
+  - { key: "TERM", value: "xterm-256color" }
+  - { key: "HISTFILE", value: "/home/{{ new_user }}/.zsh_history" }
+  - { key: "HISTSIZE", value: "1000" }
+  - { key: "SAVEHIST", value: "1000" }
