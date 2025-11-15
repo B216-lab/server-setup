@@ -1,20 +1,20 @@
 - name: Ensure ~/.ssh directory exists with correct permissions
   ansible.builtin.file:
-    path: "/home/{{ new_user }}/.ssh"
+    path: "/home/{{ ssh_user }}/.ssh"
     state: directory
     mode: '0700'
-    owner: "{{ new_user }}"
-    group: "{{ new_user }}"
-  when: new_user is defined and not ssh_lockdown | default(false)
+    owner: "{{ ssh_user }}"
+    group: "{{ ssh_user }}"
+  when: ssh_user is defined | default(false)
 
 - name: Ensure ~/.ssh/authorized_keys exists with correct permissions
   ansible.builtin.file:
-    path: "/home/{{ new_user }}/.ssh/authorized_keys"
+    path: "/home/{{ ssh_user }}/.ssh/authorized_keys"
     state: touch
     mode: '0600'
-    owner: "{{ new_user }}"
-    group: "{{ new_user }}"
-  when: new_user is defined and not ssh_lockdown | default(false)
+    owner: "{{ ssh_user }}"
+    group: "{{ ssh_user }}"
+  when: ssh_user is defined | default(false)
 
 - name: Allow SSH on configured port
   community.general.ufw:
@@ -72,7 +72,7 @@
     - { regexp: '^PermitRootLogin',         line: 'PermitRootLogin no' }
     - { regexp: '^PasswordAuthentication',  line: 'PasswordAuthentication no' }
     - { regexp: '^ChallengeResponseAuthentication', line: 'ChallengeResponseAuthentication no' }
-  when: user_ready | default(false) and not ssh_lockdown | default(false)
+  when: ssh_user is defined and not ssh_lockdown | default(false)
   notify: Restart SSH
   changed_when: true
   tags:

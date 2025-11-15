@@ -3,7 +3,6 @@
   become: true
   tags: services
   tasks:
-    - name: Include Docker role
+    - name: Include B216 Backend role
       ansible.builtin.include_role:
-        name: docker
-      when: docker_enabled | default(true)
+        name: b216_backend
