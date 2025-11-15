@@ -17,6 +17,8 @@ flowchart
 
 ## Setup
 
+![image](readme/schema.png)
+
 ### Control node
 1. [Check control node requirements](https://docs.ansible.com/projects/ansible/latest/installation_guide/intro_installation.html#control-node-requirements)
 
@@ -29,8 +31,8 @@ usermod -aG sudo deployer
 
 4. Setup ssh access to managed nodes:
 ```bash
-ssh-keygen -t rsa -b 4096
-ssh-copy-id USER@REMOTE_HOST_IP
+ssh-keygen -t ed25519 -a 32 -f ~/.ssh/node1_umrs_backend -C "ansible"
+ssh-copy-id -i ~/.ssh/node1_umrs_backend.pub user@node-ip
 ```
 5. Adjust inventory file
 
