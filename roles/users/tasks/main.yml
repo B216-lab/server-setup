@@ -27,3 +27,13 @@
     mode: '0440'
     owner: root
     group: root
+
+- name: Add environment variables to bash profile
+  ansible.builtin.lineinfile:
+    dest: "/home/{{ user }}/.bash_profile"
+    create: true
+    mode: "0644"
+    regexp: "{{ item.key }}"
+    line: "export {{ item.key }}={{ item.value }}"
+  loop: "{{ environment_variables | dict2items }}"
+  when: environment_variables is defined
