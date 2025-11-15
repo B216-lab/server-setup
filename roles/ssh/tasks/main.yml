@@ -17,14 +17,14 @@
   when: new_user is defined and not ssh_lockdown | default(false)
 
 - name: Allow SSH on configured port
-  ufw:
+  community.general.ufw:
     rule: allow
     port: "{{ ssh_port }}"
     proto: tcp
   when: not ssh_lockdown | default(false)
 
 - name: Ensure SSH privilege separation directory exists
-  file:
+  ansible.builtin.file:
     path: /run/sshd
     state: directory
     owner: root
@@ -33,7 +33,7 @@
   become: true
 
 - name: Harden SSH config
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: '^#?\s*{{ item.key }}\s+.*'
     line: '{{ item.key }} {{ item.value }}'
@@ -62,7 +62,7 @@
   changed_when: true
 
 - name: Disable root login
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
@@ -80,7 +80,7 @@
 
 
 - name: Update SSH port
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: '^#?\s*PasswordAuthentication\s+.*'
     line: 'PasswordAuthentication no'
@@ -92,7 +92,7 @@
     - lockdown
 
 - name: Disable password authentication
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: '^#?\s*PasswordAuthentication\s+.*'
     line: 'PasswordAuthentication no'
@@ -103,7 +103,7 @@
 
 
 - name: Secure SSH private keys
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     mode: '0600'
   with_fileglob:
@@ -111,7 +111,7 @@
   when: item is not search(".*\\.pub$") and not ssh_lockdown | default(false)
 
 - name: Secure SSH public keys
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     mode: '0644'
   with_fileglob:
@@ -122,7 +122,7 @@
   ansible.builtin.systemd:
     name: ssh.socket
     state: stopped
-    enabled: no
+    enabled: false
   become: true
   when: not ssh_lockdown | default(false)
 
@@ -130,7 +130,7 @@
   ansible.builtin.systemd:
     name: ssh
     state: restarted
-    enabled: yes
+    enabled: true
   become: true
   when: not ssh_lockdown | default(false)
 

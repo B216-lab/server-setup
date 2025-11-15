@@ -3,7 +3,7 @@
   become: true
   tags: services
   tasks:
-    - include_role:
+    - name: Include Docker role
+      ansible.builtin.include_role:
         name: docker
       when: docker_enabled | default(true)
-      ignore_errors: true

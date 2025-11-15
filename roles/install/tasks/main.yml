@@ -10,47 +10,51 @@
     autoremove: true
     autoclean: true
 
-- block:
+- name: "Install core packages"
+  block:
     - name: "Install core packages"
       ansible.builtin.apt:
-        name: "{{ core }}"
+        name: "{{ install_core }}"
         state: present
         update_cache: false
-      when: core is defined and core | length > 0
+      when: install_core is defined and install_core | length > 0
   rescue:
     - name: "⚠️ Core packages failed, continuing"
       ansible.builtin.debug:
-        msg: "Installation of core packages ({{ core }}) failed."
+        msg: "Installation of core packages ({{ install_core }}) failed."
 
-- block:
+- name: "Install networking tools"
+  block:
     - name: "Install networking tools"
       ansible.builtin.apt:
-        name: "{{ networking }}"
+        name: "{{ install_networking }}"
         state: present
-      when: networking is defined and networking | length > 0
+      when: install_networking is defined and install_networking | length > 0
   rescue:
     - name: "⚠️ Networking tools failed, continuing"
       ansible.builtin.debug:
-        msg: "Installation of networking packages ({{ networking }}) failed."
+        msg: "Installation of networking packages ({{ install_networking }}) failed."
 
-- block:
+- name: "Install monitoring utilities"
+  block:
     - name: "Install monitoring utilities"
       ansible.builtin.apt:
-        name: "{{ monitoring }}"
+        name: "{{ install_monitoring }}"
         state: present
-      when: monitoring is defined and monitoring | length > 0
+      when: install_monitoring is defined and install_monitoring | length > 0
   rescue:
     - name: "⚠️ Monitoring utilities failed, continuing"
       ansible.builtin.debug:
-        msg: "Installation of monitoring packages ({{ monitoring }}) failed."
+        msg: "Installation of monitoring packages ({{ install_monitoring }}) failed."
 
-- block:
+- name: "Install miscellaneous packages"
+  block:
     - name: "Install miscellaneous packages"
       ansible.builtin.apt:
-        name: "{{ misc }}"
+        name: "{{ install_misc }}"
         state: present
-      when: misc is defined and misc | length > 0
+      when: install_misc is defined and install_misc | length > 0
   rescue:
     - name: "⚠️ Misc tools failed, continuing"
       ansible.builtin.debug:
-        msg: "Installation of misc packages ({{ misc }}) failed."
+        msg: "Installation of misc packages ({{ install_misc }}) failed."

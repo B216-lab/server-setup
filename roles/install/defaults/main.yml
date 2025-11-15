@@ -1,4 +1,4 @@
-core:
+install_core:
   - build-essential
   - curl
   - file
@@ -8,7 +8,7 @@ core:
   - unzip
   - zip
 
-shell:
+install_shell:
   - fd-find
   - fzf
   - jq
@@ -18,18 +18,18 @@ shell:
   - zoxide
   - zsh
 
-networking:
+install_networking:
   - dnsutils
   - net-tools
   - nmap
   - traceroute
   - whois
 
-monitoring:
+install_monitoring:
   - btop
   - duff
   - gping
-  - iftop 
+  - iftop
   - iotop
   - iperf3
   - mtr

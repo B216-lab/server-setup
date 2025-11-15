@@ -23,12 +23,12 @@ enable_list:
 
 # Skip rules that are not applicable to your project
 skip_list:
-  - yaml[colons]
-  - yaml[comma]
-  - name[casing]
-  - yaml[comments]
-  - name[template]
-  - yaml[new-line-at-end-of-file]
+  # - yaml[colons]
+  - yaml[commas] # too many commas
+  # - name[casing]
+  # - yaml[comments]
+  # - name[template]
+  # - yaml[new-line-at-end-of-file]
 
 # Warnings are useful as they show up in Pull Requests but can be ignored
 warn_list:

@@ -1,10 +1,10 @@
 - name: Ensure docker group exists
-  group:
+  ansible.builtin.group:
     name: docker
     state: present
 
 - name: Create user
-  user:
+  ansible.builtin.user:
     name: "{{ new_user }}"
     shell: /bin/bash
     groups: sudo,docker
