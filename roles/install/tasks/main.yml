@@ -47,14 +47,14 @@
       ansible.builtin.debug:
         msg: "Installation of monitoring packages ({{ install_monitoring }}) failed."
 
-- name: "Install miscellaneous packages"
+- name: "Install shell packages"
   block:
-    - name: "Install miscellaneous packages"
+    - name: "Install shell packages"
       ansible.builtin.apt:
-        name: "{{ install_misc }}"
+        name: "{{ install_shell }}"
         state: present
-      when: install_misc is defined and install_misc | length > 0
+      when: install_shell is defined and install_shell | length > 0
   rescue:
-    - name: "⚠️ Misc tools failed, continuing"
+    - name: "⚠️ Shell tools failed, continuing"
       ansible.builtin.debug:
-        msg: "Installation of misc packages ({{ install_misc }}) failed."
+        msg: "Installation of shell packages ({{ install_shell }}) failed."

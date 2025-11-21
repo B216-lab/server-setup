@@ -1,0 +1,35 @@
+---
+name: CI
+on:
+  push:
+    branches:
+      - main
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install Ansible
+        run: |
+          pip install ansible molecule "molecule-plugins[docker]"
+
+      - name: Install Ansible collections
+        run: |
+          ansible-galaxy collection install -r requirements.yml
+
+      - name: Install roles
+        run: |
+          ansible-galaxy role install -r requirements.yml
+
+      - name: Test install role
+        run: |
+          cd roles/install
+          molecule test
+

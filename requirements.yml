@@ -1,8 +1,12 @@
 roles:
   # https://galaxy.ansible.com/ui/standalone/roles/geerlingguy/docker/documentation/
   - src: geerlingguy.docker
+    version: 7.8.0
 
 collections:
   - name: community.general
+    version: 12.0.1
   - name: ansible.posix
+    version: 2.1.0
   - name: community.docker
+    version: 5.0.2

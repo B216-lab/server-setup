@@ -41,6 +41,12 @@ ssh-copy-id -i ~/.ssh/node1_umrs_backend.pub user@node-ip
 ansible all -i inventories/main.yml -m ping
 ```
 
+7. Install roles and collections
+```bash
+ansible-galaxy role install -r requirements.yml
+ansible-galaxy collection install -r requirements.yml
+```
+
 ### Managed node
 
 - [Managed node requirements](https://docs.ansible.com/projects/ansible/latest/installation_guide/intro_installation.html#managed-node-requirements)

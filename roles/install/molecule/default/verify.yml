@@ -1,0 +1,46 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  vars_files:
+    - ../../defaults/main.yml
+  tasks:
+    - name: Check core packages are installed
+      ansible.builtin.shell:
+        cmd: "dpkg-query -W -f='${Status}' {{ item }} | grep -q 'install ok installed'"
+      register: core_packages_check
+      changed_when: false
+      failed_when: core_packages_check.rc != 0
+      loop: "{{ install_core }}"
+      when: install_core is defined and install_core | length > 0
+
+    - name: Check networking tools are installed
+      ansible.builtin.shell:
+        cmd: "dpkg-query -W -f='${Status}' {{ item }} | grep -q 'install ok installed'"
+      register: networking_packages_check
+      changed_when: false
+      failed_when: networking_packages_check.rc != 0
+      loop: "{{ install_networking }}"
+      when: install_networking is defined and install_networking | length > 0
+
+    - name: Check monitoring utilities are installed
+      ansible.builtin.shell:
+        cmd: "dpkg-query -W -f='${Status}' {{ item }} | grep -q 'install ok installed'"
+      register: monitoring_packages_check
+      changed_when: false
+      failed_when: monitoring_packages_check.rc != 0
+      loop: "{{ install_monitoring }}"
+      when: install_monitoring is defined and install_monitoring | length > 0
+
+    - name: Check shell packages are installed
+      ansible.builtin.shell:
+        cmd: "dpkg-query -W -f='${Status}' {{ item }} | grep -q 'install ok installed'"
+      register: shell_packages_check
+      changed_when: false
+      failed_when: shell_packages_check.rc != 0
+      loop: "{{ install_shell }}"
+      when: install_shell is defined and install_shell | length > 0
+
+    - name: Display verification results
+      ansible.builtin.debug:
+        msg: "All packages verified successfully!"

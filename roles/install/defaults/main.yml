@@ -28,7 +28,7 @@ install_networking:
 install_monitoring:
   - btop
   - duff
-  - gping
+  # - gping
   - iftop
   - iotop
   - iperf3
