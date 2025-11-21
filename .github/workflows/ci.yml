@@ -4,6 +4,13 @@ on:
   push:
     branches:
       - main
+      - stable
+      - release/v*
+  pull_request:
+    branches:
+      - main
+      - stable
+      - release/v*
 jobs:
   test:
     runs-on: ubuntu-latest
