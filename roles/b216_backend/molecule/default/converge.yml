@@ -1,0 +1,8 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    # Skip Docker role in testing (Docker-in-Docker is complex)
+    docker_install_role: false
+  roles:
+    - role: "{{ playbook_dir }}/../../"

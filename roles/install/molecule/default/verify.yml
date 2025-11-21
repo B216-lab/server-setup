@@ -6,39 +6,75 @@
     - ../../defaults/main.yml
   tasks:
     - name: Check core packages are installed
-      ansible.builtin.shell:
-        cmd: "dpkg-query -W -f='${Status}' {{ item }} | grep -q 'install ok installed'"
-      register: core_packages_check
+      ansible.builtin.command:
+        cmd: "dpkg-query -W -f='${Status}' {{ item }}"
+      register: core_packages_status
       changed_when: false
-      failed_when: core_packages_check.rc != 0
+      failed_when: false
       loop: "{{ install_core }}"
       when: install_core is defined and install_core | length > 0
 
+    - name: Verify core packages installation
+      ansible.builtin.assert:
+        that:
+          - item.stdout is search('install ok installed')
+        fail_msg: "Package {{ item.item }} is not installed"
+        success_msg: "Package {{ item.item }} is installed"
+      loop: "{{ core_packages_status.results | default([]) }}"
+      when: install_core is defined and install_core | length > 0
+
     - name: Check networking tools are installed
-      ansible.builtin.shell:
-        cmd: "dpkg-query -W -f='${Status}' {{ item }} | grep -q 'install ok installed'"
-      register: networking_packages_check
+      ansible.builtin.command:
+        cmd: "dpkg-query -W -f='${Status}' {{ item }}"
+      register: networking_packages_status
       changed_when: false
-      failed_when: networking_packages_check.rc != 0
+      failed_when: false
       loop: "{{ install_networking }}"
       when: install_networking is defined and install_networking | length > 0
 
+    - name: Verify networking packages installation
+      ansible.builtin.assert:
+        that:
+          - item.stdout is search('install ok installed')
+        fail_msg: "Package {{ item.item }} is not installed"
+        success_msg: "Package {{ item.item }} is installed"
+      loop: "{{ networking_packages_status.results | default([]) }}"
+      when: install_networking is defined and install_networking | length > 0
+
     - name: Check monitoring utilities are installed
-      ansible.builtin.shell:
-        cmd: "dpkg-query -W -f='${Status}' {{ item }} | grep -q 'install ok installed'"
-      register: monitoring_packages_check
+      ansible.builtin.command:
+        cmd: "dpkg-query -W -f='${Status}' {{ item }}"
+      register: monitoring_packages_status
       changed_when: false
-      failed_when: monitoring_packages_check.rc != 0
+      failed_when: false
       loop: "{{ install_monitoring }}"
       when: install_monitoring is defined and install_monitoring | length > 0
 
+    - name: Verify monitoring packages installation
+      ansible.builtin.assert:
+        that:
+          - item.stdout is search('install ok installed')
+        fail_msg: "Package {{ item.item }} is not installed"
+        success_msg: "Package {{ item.item }} is installed"
+      loop: "{{ monitoring_packages_status.results | default([]) }}"
+      when: install_monitoring is defined and install_monitoring | length > 0
+
     - name: Check shell packages are installed
-      ansible.builtin.shell:
-        cmd: "dpkg-query -W -f='${Status}' {{ item }} | grep -q 'install ok installed'"
-      register: shell_packages_check
+      ansible.builtin.command:
+        cmd: "dpkg-query -W -f='${Status}' {{ item }}"
+      register: shell_packages_status
       changed_when: false
-      failed_when: shell_packages_check.rc != 0
+      failed_when: false
       loop: "{{ install_shell }}"
+      when: install_shell is defined and install_shell | length > 0
+
+    - name: Verify shell packages installation
+      ansible.builtin.assert:
+        that:
+          - item.stdout is search('install ok installed')
+        fail_msg: "Package {{ item.item }} is not installed"
+        success_msg: "Package {{ item.item }} is installed"
+      loop: "{{ shell_packages_status.results | default([]) }}"
       when: install_shell is defined and install_shell | length > 0
 
     - name: Display verification results

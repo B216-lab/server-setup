@@ -1,11 +1,4 @@
 ---
-- name: "Ensure the project directory exists"
-  ansible.builtin.file:
-    path: "{{ b216_backend_project_directory }}"
-    state: directory
-    owner: "{{ ansible_user | default('deployer') }}"
-    mode: '0755'
-
 - name: "Install git"
   ansible.builtin.apt:
     name: git
@@ -15,6 +8,33 @@
 - name: "Include Docker role"
   ansible.builtin.import_role:
     name: geerlingguy.docker
+  when: docker_install_role | default(true) | bool
+
+- name: "Check if directory exists"
+  ansible.builtin.stat:
+    path: "{{ b216_backend_project_directory }}"
+  register: b216_backend_project_dir_stat
+
+- name: "Check if .git directory exists"
+  ansible.builtin.stat:
+    path: "{{ b216_backend_project_directory }}/.git"
+  register: b216_backend_git_dir_stat
+  when: b216_backend_project_dir_stat.stat.exists
+
+- name: "Remove directory if it exists but is not a valid git repo"
+  ansible.builtin.file:
+    path: "{{ b216_backend_project_directory }}"
+    state: absent
+  when:
+    - b216_backend_project_dir_stat.stat.exists
+    - b216_backend_git_dir_stat.stat.exists is not defined or not b216_backend_git_dir_stat.stat.exists
+
+- name: "Configure git safe directory"
+  community.general.git_config:
+    name: safe.directory
+    value: "{{ b216_backend_project_directory }}"
+    scope: global
+    state: present
 
 - name: "Clone umrs-back repository"
   ansible.builtin.git:
@@ -25,16 +45,26 @@
     version: "{{ b216_backend_project_version }}"
     accept_hostkey: true
 
+- name: "Ensure the project directory has correct permissions"
+  ansible.builtin.file:
+    path: "{{ b216_backend_project_directory }}"
+    owner: "{{ ansible_user | default('deployer') }}"
+    mode: '0755'
+    recurse: true
+
 - name: Tear down existing services
   community.docker.docker_compose_v2:
     project_src: "{{ b216_backend_project_directory }}"
     state: absent
+  when: docker_install_role | default(true) | bool
 
 - name: Create and start services
   community.docker.docker_compose_v2:
     project_src: "{{ b216_backend_project_directory }}"
     register: output
+  when: docker_install_role | default(true) | bool
 
 - name: Show results
   ansible.builtin.debug:
     var: output
+  when: docker_install_role | default(true) | bool and output is defined

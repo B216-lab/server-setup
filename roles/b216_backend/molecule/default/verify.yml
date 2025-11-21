@@ -1,0 +1,36 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  vars_files:
+    - ../../defaults/main.yml
+  tasks:
+    - name: Check git is installed
+      ansible.builtin.command:
+        cmd: "dpkg-query -W -f='${Status}' git"
+      register: git_status
+      changed_when: false
+      failed_when: false
+
+    - name: Verify git package is installed
+      ansible.builtin.assert:
+        that:
+          - git_status.stdout is search('install ok installed')
+        fail_msg: "Git package is not installed"
+        success_msg: "Git package is installed"
+
+    - name: Check project directory exists
+      ansible.builtin.stat:
+        path: "{{ b216_backend_project_directory }}"
+      register: project_dir_check
+      failed_when: not project_dir_check.stat.exists
+
+    - name: Check repository is cloned
+      ansible.builtin.stat:
+        path: "{{ b216_backend_project_directory }}/.git"
+      register: git_repo_check
+      failed_when: not git_repo_check.stat.exists
+
+    - name: Display verification results
+      ansible.builtin.debug:
+        msg: "All verifications passed successfully!"

@@ -1,0 +1,19 @@
+---
+dependency:
+  name: galaxy
+  options:
+    requirements-file: requirements.yml
+driver:
+  name: docker
+platforms:
+  - name: instance
+    image: ubuntu:22.04
+    pre_build_image: true
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      host_key_checking: false
+      interpreter_python: auto_silent
+verifier:
+  name: ansible

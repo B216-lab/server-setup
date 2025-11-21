@@ -1,0 +1,12 @@
+---
+roles:
+  # Docker role required by b216_backend
+  - src: geerlingguy.docker
+    version: 7.8.0
+
+collections:
+  # Docker collection for docker_compose_v2 module
+  - name: community.docker
+    version: 5.0.2
+  - name: community.general
+    version: 12.0.1

@@ -29,8 +29,12 @@ skip_list:
   # - yaml[comments]
   # - name[template]
   # - yaml[new-line-at-end-of-file]
+  - role-name[path] # molecule uses relative paths for roles
 
 # Warnings are useful as they show up in Pull Requests but can be ignored
 warn_list:
   - name[missing]
   - var-naming[no-role-prefix]
+
+exclude_paths:
+  - .github/workflows/

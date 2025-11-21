@@ -33,3 +33,8 @@ jobs:
           cd roles/install
           molecule test
 
+      - name: Test b216_backend role
+        run: |
+          cd roles/b216_backend
+          molecule test
+
