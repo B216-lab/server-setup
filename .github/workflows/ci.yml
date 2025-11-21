@@ -33,7 +33,8 @@ jobs:
           ansible-galaxy collection install -r requirements.yml
 
       - name: Run ansible-lint
-        uses: ansible/ansible-lint@main
+        run: |
+          ansible-lint .
 
       - name: Install roles
         run: |
