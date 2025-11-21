@@ -24,9 +24,26 @@ jobs:
         with:
           python-version: '3.x'
 
+      - name: Cache pip packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
       - name: Install Ansible
         run: |
+          pip install --upgrade pip
           pip install ansible molecule "molecule-plugins[docker]" ansible-lint
+
+      - name: Cache Ansible collections
+        uses: actions/cache@v4
+        with:
+          path: ~/.ansible/collections
+          key: ${{ runner.os }}-collections-${{ hashFiles('requirements.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-collections-
 
       - name: Install Ansible collections
         run: |
@@ -36,9 +53,23 @@ jobs:
         run: |
           ansible-lint .
 
+      - name: Cache Ansible roles
+        uses: actions/cache@v4
+        with:
+          path: ~/.ansible/roles
+          key: ${{ runner.os }}-roles-${{ hashFiles('requirements.yml', 'roles/*/molecule/default/requirements.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-roles-
+
       - name: Install roles
         run: |
           ansible-galaxy role install -r requirements.yml
+          if [ -f "roles/install/molecule/default/requirements.yml" ]; then
+            ansible-galaxy role install -r roles/install/molecule/default/requirements.yml
+          fi
+          if [ -f "roles/b216_backend/molecule/default/requirements.yml" ]; then
+            ansible-galaxy role install -r roles/b216_backend/molecule/default/requirements.yml
+          fi
 
       - name: Test install role
         run: |
