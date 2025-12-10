@@ -1,4 +1,16 @@
-- name: Restart SSH
+- name: Restart sshd
+  listen:
+    - restart sshd
+    - Restart sshd
   ansible.builtin.service:
-    name: "{{ 'ssh' if ansible_facts['os_family'] == 'Debian' else 'sshd' }}"
+    name: "{{ ssh_service_name | default('sshd') }}"
     state: restarted
+
+# (optional) reload variant — lighter touch than a full restart
+- name: Reload sshd
+  listen:
+    - reload sshd
+    - Reload sshd
+  ansible.builtin.service:
+    name: "{{ ssh_service_name | default('sshd') }}"
+    state: reloaded

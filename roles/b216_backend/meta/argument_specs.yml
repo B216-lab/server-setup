@@ -1,0 +1,86 @@
+---
+argument_specs:
+  main:
+    options:
+      b216_backend_project_directory:
+        type: path
+        required: true
+        description: "Directory where the backend project will be deployed"
+      b216_backend_server_port:
+        type: int
+        required: true
+        description: "Port number for the backend server to listen on"
+      b216_backend_database_name:
+        type: str
+        required: true
+        description: "PostgreSQL database name"
+      b216_backend_database_username:
+        type: str
+        required: true
+        description: "PostgreSQL database username"
+      b216_backend_database_password:
+        type: str
+        required: true
+        description: "PostgreSQL database password (sensitive - use vault)"
+      b216_backend_database_port:
+        type: int
+        required: true
+        description: "PostgreSQL database port"
+      b216_backend_mail_host:
+        type: str
+        required: true
+        description: "SMTP mail server hostname"
+      b216_backend_mail_port:
+        type: int
+        required: true
+        description: "SMTP mail server port"
+      b216_backend_mail_username:
+        type: str
+        required: true
+        description: "SMTP mail server username"
+      b216_backend_mail_password:
+        type: str
+        required: true
+        description: "SMTP mail server password (sensitive - use vault)"
+      b216_backend_mail_smtp_auth:
+        type: bool
+        required: true
+        description: "Enable SMTP authentication"
+      b216_backend_mail_smtp_starttls_enable:
+        type: bool
+        required: true
+        description: "Enable SMTP STARTTLS"
+      b216_backend_mail_smtp_starttls_required:
+        type: bool
+        required: true
+        description: "Require SMTP STARTTLS"
+      b216_backend_mail_ssl_trust:
+        type: str
+        required: true
+        description: "SMTP SSL trust configuration"
+      b216_backend_admin_username:
+        type: str
+        required: true
+        description: "Application admin username"
+      b216_backend_admin_password:
+        type: str
+        required: true
+        description: "Application admin password (sensitive - use vault)"
+      b216_backend_project_version:
+        type: str
+        required: false
+        default: "main"
+        description: "Git branch/tag/commit to deploy"
+      ghcr_username:
+        type: str
+        required: true
+        description: "GitHub Container Registry username"
+      ghcr_token:
+        type: str
+        required: true
+        description: "GitHub Container Registry token (sensitive - use vault)"
+      b216_backend_docker_install_role:
+        type: bool
+        required: false
+        default: true
+        description: "Whether to install Docker via geerlingguy.docker role"

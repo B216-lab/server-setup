@@ -3,6 +3,22 @@
   become: true
   tags: services
   tasks:
-    - name: Include B216 Backend role
+    # - name: Include users role
+    #   ansible.builtin.include_role:
+    #     name: users
+
+    # - name: Include ssh role
+    #   ansible.builtin.include_role:
+    #     name: ssh
+
+    # - name: Include install role
+    #   ansible.builtin.include_role:
+    #     name: install
+
+    # - name: Setup B216 Backend docker service
+    #   ansible.builtin.include_role:
+    #     name: b216_backend
+
+    - name: Setup B216 Geoform docker service
       ansible.builtin.include_role:
-        name: b216_backend
+        name: b216_geoform

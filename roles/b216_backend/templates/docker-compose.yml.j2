@@ -1,0 +1,62 @@
+services:
+  app:
+    image: 'ghcr.io/b216-lab/umrs-back:{{ b216_backend_project_version }}'
+    ports:
+        - '{{ b216_backend_server_port }}:8081'
+    environment:
+        - 'SPRING_PROFILES_ACTIVE=production'
+        - 'SERVER_PORT={{ b216_backend_server_port }}'
+
+        - 'SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/{{ b216_backend_database_name }}'
+        - 'SPRING_DATASOURCE_USERNAME={{ b216_backend_database_username }}'
+        - 'SPRING_DATASOURCE_PASSWORD={{ b216_backend_database_password }}'
+
+        - 'MAIL_HOST={{ b216_backend_mail_host }}'
+        - 'MAIL_PORT={{ b216_backend_mail_port }}'
+        - 'MAIL_USERNAME={{ b216_backend_mail_username }}'
+        - 'MAIL_PASSWORD={{ b216_backend_mail_password }}'
+        - 'MAIL_SMTP_AUTH={{ b216_backend_mail_smtp_auth }}'
+        - 'MAIL_SMTP_STARTTLS_ENABLE={{ b216_backend_mail_smtp_starttls_enable }}'
+        - 'MAIL_SMTP_STARTTLS_REQUIRED={{ b216_backend_mail_smtp_starttls_required }}'
+        - 'MAIL_SMTP_SSL_TRUST={{ b216_backend_mail_ssl_trust }}'
+
+        - 'APP_ADMIN_USERNAME={{ b216_backend_admin_username }}'
+        - 'APP_ADMIN_PASSWORD={{ b216_backend_admin_password }}'
+    depends_on:
+        postgres:
+            condition: service_healthy
+    restart: unless-stopped
+    networks:
+        - shared-net
+    healthcheck:
+        test: [ "CMD", "curl", "-f", "http://localhost:{{ b216_backend_server_port }}/actuator/health" ]
+        interval: 30s
+        timeout: 10s
+        retries: 5
+
+  postgres:
+      image: 'postgis/postgis:18-3.6-alpine'
+      environment:
+          - 'POSTGRES_DB={{ b216_backend_database_name }}'
+          - 'POSTGRES_PASSWORD={{ b216_backend_database_password }}'
+          - 'POSTGRES_USER={{ b216_backend_database_username }}'
+      ports:
+          - '{{ b216_backend_database_port }}:5432'
+      volumes:
+          - db-data:/var/lib/postgresql/data
+      labels:
+          - 'org.springframework.boot.service-connection=postgres'
+      healthcheck:
+          test: [ "CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}" ]
+          interval: 10s
+          timeout: 5s
+          retries: 5
+      networks:
+          - shared-net
+
+volumes:
+  db-data:
+
+networks:
+  shared-net:
+      external: true

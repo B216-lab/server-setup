@@ -1,39 +1,17 @@
-- name: Ensure docker group exists
-  ansible.builtin.group:
-    name: docker
-    state: present
-
 - name: Create user
   ansible.builtin.user:
-    name: "{{ new_user }}"
+    name: "{{ users_new_user }}"
     shell: /bin/bash
-    groups: sudo,docker
+    groups: sudo
     append: true
     state: present
     create_home: true
-    password: "{{ user_password | password_hash('sha512') }}"
-  when: user_password is defined
+    update_password: always
+    password: "{{ users_user_password | password_hash('sha512') }}"
+  when: users_user_password is defined
 
 - name: Set up authorized SSH key
   ansible.posix.authorized_key:
-    user: "{{ new_user }}"
+    user: "{{ users_new_user }}"
     state: present
-    key: "{{ lookup('file', user_ssh_key_path) }}"
-
-- name: Require password when using sudo
-  ansible.builtin.copy:
-    dest: "/etc/sudoers.d/{{ new_user }}"
-    content: "{{ new_user }} ALL=(ALL) ALL"
-    mode: '0440'
-    owner: root
-    group: root
-
-- name: Add environment variables to bash profile
-  ansible.builtin.lineinfile:
-    dest: "/home/{{ user }}/.bash_profile"
-    create: true
-    mode: "0644"
-    regexp: "{{ item.key }}"
-    line: "export {{ item.key }}={{ item.value }}"
-  loop: "{{ environment_variables | dict2items }}"
-  when: environment_variables is defined
+    key: "{{ lookup('file', users_user_ssh_key_path) }}"

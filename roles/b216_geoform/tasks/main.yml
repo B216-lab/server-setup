@@ -3,9 +3,9 @@
   ansible.builtin.import_role:
     name: geerlingguy.docker
 
-- name: Ensure backend project directory exists
+- name: Ensure geoform project directory exists
   ansible.builtin.file:
-    path: "{{ b216_backend_project_directory }}"
+    path: "{{ b216_geoform_project_directory }}"
     state: directory
     owner: "{{ ansible_user | default(lookup('env', 'USER')) }}"
     group: "{{ ansible_user | default(lookup('env', 'USER')) }}"
@@ -14,9 +14,9 @@
 - name: Template docker-compose.yml
   ansible.builtin.template:
     src: docker-compose.yml.j2
-    dest: "{{ b216_backend_project_directory }}/docker-compose.yml"
+    dest: "{{ b216_geoform_project_directory }}/docker-compose.yml"
     mode: '0644'
-  when: b216_backend_project_directory is defined
+  when: b216_geoform_project_directory is defined
 
 - name: Log in to GitHub Container Registry (ghcr.io)
   community.docker.docker_login:
@@ -27,7 +27,7 @@
 
 - name: Tear down existing services
   community.docker.docker_compose_v2:
-    project_src: "{{ b216_backend_project_directory }}"
+    project_src: "{{ b216_geoform_project_directory }}"
     state: absent
 
 - name: Ensure shared-net docker network exists
@@ -37,9 +37,9 @@
 
 - name: Create and start services
   community.docker.docker_compose_v2:
-    project_src: "{{ b216_backend_project_directory }}"
-  register: b216_backend_docker_output
+    project_src: "{{ b216_geoform_project_directory }}"
+  register: b216_geoform_docker_output
 
 - name: Show results
   ansible.builtin.debug:
-    var: b216_backend_docker_output
+    var: b216_geoform_docker_output

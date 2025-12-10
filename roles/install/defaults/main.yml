@@ -1,12 +1,7 @@
 install_core:
-  - build-essential
   - curl
-  - file
   - git
   - less
-  - man-db
-  - unzip
-  - zip
 
 install_shell:
   - fd-find
@@ -17,6 +12,7 @@ install_shell:
   - tmux
   - zoxide
   - zsh
+  - lf
 
 install_networking:
   - dnsutils
@@ -28,10 +24,8 @@ install_networking:
 install_monitoring:
   - btop
   - duff
-  # - gping
   - iftop
   - iotop
   - iperf3
   - mtr
   - ncdu
-  - atop

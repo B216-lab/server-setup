@@ -1,0 +1,18 @@
+services:
+  frontend:
+    image: 'ghcr.io/b216-lab/form-renderer:{{ b216_geoform_project_version }}'
+    ports:
+      - '{{ b216_geoform_server_port }}:4173'
+    restart: unless-stopped
+    networks:
+      - shared-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:{{ b216_geoform_server_port }}" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+networks:
+  shared-net:
+    external: true

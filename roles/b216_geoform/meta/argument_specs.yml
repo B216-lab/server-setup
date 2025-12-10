@@ -1,0 +1,30 @@
+---
+argument_specs:
+  main:
+    options:
+      b216_geoform_project_directory:
+        type: path
+        required: true
+        description: "Directory where the geoform project will be deployed"
+      b216_geoform_server_port:
+        type: int
+        required: true
+        description: "Port number for the geoform frontend server to listen on"
+      b216_geoform_project_version:
+        type: str
+        required: false
+        default: "main"
+        description: "Git branch/tag/commit to deploy"
+      ghcr_username:
+        type: str
+        required: true
+        description: "GitHub Container Registry username"
+      ghcr_token:
+        type: str
+        required: true
+        description: "GitHub Container Registry token (sensitive - use vault)"
+      b216_geoform_docker_install_role:
+        type: bool
+        required: false
+        default: true
+        description: "Whether to install Docker via geerlingguy.docker role"

@@ -3,14 +3,10 @@ name: CI
 on:
   push:
     branches:
-      - main
       - stable
       - release/v*
-  pull_request:
-    branches:
-      - main
-      - stable
-      - release/v*
+  workflow_dispatch:
+
 jobs:
   test:
     name: Molecule Tests

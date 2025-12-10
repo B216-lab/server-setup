@@ -1,1 +1,1 @@
-Обновление пакетов и установка новых
+Package updating and installing

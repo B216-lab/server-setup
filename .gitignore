@@ -50,3 +50,8 @@ logs/*.log.*
 
 # Molecule testing directories
 .molecule/
+.env
+group_vars/all/secrets.yml
+sudo_pass
+roles/geerlingguy.docker
+hosts.ini

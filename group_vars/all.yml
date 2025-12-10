@@ -1,4 +1,0 @@
----
-docker_enabled: true
-docker_users:
-  - deployer

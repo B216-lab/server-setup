@@ -1,0 +1,14 @@
+---
+argument_specs:
+  main:
+    options:
+      ssh_port:
+        type: int
+        required: true
+        description: "SSH port number to configure"
+      ssh_service_name:
+        type: str
+        required: false
+        default: "sshd"
+        description: "SSH service name (defaults to sshd)"
+
